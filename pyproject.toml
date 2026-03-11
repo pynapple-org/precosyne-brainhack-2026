@@ -17,6 +17,7 @@ dependencies = [
     "pynwb",
     "fsspec",
     "h5py",
+    "lindi"
 ]
 
 [tool.setuptools.packages.find]
