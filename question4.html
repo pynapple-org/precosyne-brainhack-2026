@@ -1,0 +1,691 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Question 4: Decoding Accuracy &#8212; PreCosyne BrainHack 2026  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/mycss.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'question4';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Question 3: Functional Connectivity Between Brain Areas" href="question3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/01-FI-primary-logo-color.png" class="logo__image only-light" alt="Home"/>
+    <img src="_static/03-FI-primary-logo-white.png" class="logo__image only-dark pst-js-only" alt="Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Questions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="question1.html">Question 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="question2.html">Question 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="question3.html">Question 3</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Question 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Our software</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://pynapple.org">pynapple</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nemos.readthedocs.io/en/latest/">NeMoS</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/question4.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Question 4: Decoding Accuracy</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approach">Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stream-and-load-the-data">Stream and load the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-cross-validation">Simple cross-validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#better-cross-validation-with-sklearn">Better cross-validation with <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#answer">Answer</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="question-4-decoding-accuracy">
+<h1>Question 4: Decoding Accuracy<a class="headerlink" href="#question-4-decoding-accuracy" title="Link to this heading">#</a></h1>
+<p><strong>During which trial segment is variable C best decoded?</strong></p>
+<section id="approach">
+<h2>Approach<a class="headerlink" href="#approach" title="Link to this heading">#</a></h2>
+<p>Another way to frame this question is: during which trial segment is variable C best predicted from neural activity? To answer this version of the question, we’ll use a classification GLM, which is useful for predicting the labels of categorical variables like variable C. This model avilable in NeMoS as <a class="reference external" href="https://nemos.readthedocs.io/en/latest/generated/glm/nemos.glm.ClassifierGLM.html#nemos.glm.ClassifierGLM"><code class="docutils literal notranslate"><span class="pre">ClassifierGLM</span></code></a>.</p>
+<p>We need to compare decoding during three trial segments: from trial start to simulus onset, from stimulus onset to outcome time, and from outcome time to trial end.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">pynwb</span> <span class="kn">import</span> <span class="n">NWBHDF5IO</span>
+
+<span class="kn">from</span> <span class="nn">dandi.dandiapi</span> <span class="kn">import</span> <span class="n">DandiAPIClient</span>
+<span class="kn">import</span> <span class="nn">fsspec</span>
+<span class="kn">from</span> <span class="nn">fsspec.implementations.cached</span> <span class="kn">import</span> <span class="n">CachingFileSystem</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+<span class="kn">import</span> <span class="nn">pynapple</span> <span class="k">as</span> <span class="nn">nap</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">nemos</span> <span class="k">as</span> <span class="nn">nmo</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="stream-and-load-the-data">
+<h2>Stream and load the data<a class="headerlink" href="#stream-and-load-the-data" title="Link to this heading">#</a></h2>
+<p>First, we’ll stream a representative animal directly from DANDI.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># anonymized dataset</span>
+<span class="n">dandiset_id</span> <span class="o">=</span> <span class="s2">&quot;218201&quot;</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;sub-mouse-13/sub-mouse-13_ses-None_ecephys.nwb&quot;</span>
+
+<span class="k">with</span> <span class="n">DandiAPIClient</span><span class="p">(</span><span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;https://api.sandbox.dandiarchive.org/api&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">asset</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dandiset</span><span class="p">(</span><span class="n">dandiset_id</span><span class="p">,</span> <span class="s2">&quot;draft&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_asset_by_path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">s3_url</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">get_content_url</span><span class="p">(</span><span class="n">follow_redirects</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strip_query</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># first, create a virtual filesystem based on the http protocol</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">filesystem</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">)</span>
+
+<span class="c1"># create a cache to save downloaded data to disk (optional)</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">CachingFileSystem</span><span class="p">(</span>
+    <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span>
+    <span class="n">cache_storage</span><span class="o">=</span><span class="s2">&quot;nwb-cache&quot;</span><span class="p">,</span>  <span class="c1"># Local folder for the cache</span>
+<span class="p">)</span>
+
+<span class="c1"># next, open the file</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">s3_url</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">io</span> <span class="o">=</span> <span class="n">NWBHDF5IO</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">,</span> <span class="n">load_namespaces</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">io</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pynwb.NWBHDF5IO at 0x7fe1a5da24e0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can load the streamed file directly with Pynapple. We’ll grab the relevant data: the spike times and trial information. Additionally, we’ll exclude any trials where the four demarcating time points don’t occur consecutively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load in the streamed file</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">NWBFile</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># get spike times and trial data</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
+<span class="n">trials</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;trials&quot;</span><span class="p">]</span>
+
+<span class="c1"># remove trials with bad timing</span>
+<span class="n">trials</span> <span class="o">=</span> <span class="n">trials</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">trials</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">trials</span><span class="o">.</span><span class="n">stim_start</span><span class="p">)</span> <span class="o">&amp;</span> 
+    <span class="p">(</span><span class="n">trials</span><span class="o">.</span><span class="n">stim_start</span> <span class="o">&lt;</span> <span class="n">trials</span><span class="o">.</span><span class="n">outcome</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="p">(</span><span class="n">trials</span><span class="o">.</span><span class="n">outcome</span> <span class="o">&lt;</span> <span class="n">trials</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># get number of classes for ClassifierGLM</span>
+<span class="n">n_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">trials</span><span class="o">.</span><span class="n">variable_C</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-
+┍━━━━━━━━━━━━┯━━━━━━━━━━━━━┑
+│ Keys       │ Type        │
+┝━━━━━━━━━━━━┿━━━━━━━━━━━━━┥
+│ units      │ TsGroup     │
+│ trials     │ IntervalSet │
+│ lfp_area_3 │ TsdFrame    │
+│ lfp_area_2 │ TsdFrame    │
+│ lfp_area_1 │ TsdFrame    │
+┕━━━━━━━━━━━━┷━━━━━━━━━━━━━┙
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s define the three segments each as a pynapple <a class="reference external" href="https://pynapple.org/generated/pynapple.IntervalSet.html"><code class="docutils literal notranslate"><span class="pre">IntervalSet</span></code></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define interval sets for the three segments of interest</span>
+<span class="n">start_to_stim</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">stim_start</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">stim_to_outcome</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">stim_start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">outcome</span><span class="p">,</span>  <span class="n">metadata</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">outcome_to_end</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">outcome</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="simple-cross-validation">
+<h2>Simple cross-validation<a class="headerlink" href="#simple-cross-validation" title="Link to this heading">#</a></h2>
+<p>We will want to use cross-validation to determine how well the neural activity predicts variable C. In other words, we’ll train the model on one subset of the data and calculate how well it predicts the labels of a separate, held-out subset of the data. We can do this simply by splitting the data in two halves. We’ll split the data into training and testing sets by taking every other trial; this way, we have even sampling throughout the session in both sets. Additionally, we’ll split evenly within each category of C in order to preserve the statistics of each category in both subsets.</p>
+<p>We’ll fit the <code class="docutils literal notranslate"><span class="pre">ClassifierGLM</span></code> on the train set, and then predict the label of Variable C on the test set. Using the predicted label, we can compute the accuracy of how well it matches the true labels in the test set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define interval sets for the three segments of interest</span>
+<span class="n">start_to_stim</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">stim_start</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">stim_to_outcome</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">stim_start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">outcome</span><span class="p">,</span>  <span class="n">metadata</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">outcome_to_end</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">outcome</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">trials</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+
+<span class="n">seg_accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span><span class="n">seg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">start_to_stim</span><span class="p">,</span> <span class="n">stim_to_outcome</span><span class="p">,</span> <span class="n">outcome_to_end</span><span class="p">]):</span>
+    <span class="c1"># use half of trials for train set, with even split within category</span>
+    <span class="n">seg_train</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">groupby_apply</span><span class="p">(</span><span class="s2">&quot;variable_C&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">as_dataframe</span><span class="p">())</span>
+    <span class="c1"># concatenate results and sort</span>
+    <span class="n">seg_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">seg_train</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># save in intervalset</span>
+    <span class="n">seg_train</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">IntervalSet</span><span class="p">(</span><span class="n">seg_train</span><span class="p">)</span>
+    <span class="c1"># use set_diff to get remaining intervals for test set</span>
+    <span class="n">seg_test</span> <span class="o">=</span> <span class="n">seg</span><span class="o">.</span><span class="n">set_diff</span><span class="p">(</span><span class="n">seg_train</span><span class="p">)</span>
+    
+    <span class="c1"># get spike counts and variable_C in relevant segment during train trials</span>
+    <span class="n">counts_train</span> <span class="o">=</span> <span class="n">spikes</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">seg_train</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">seg_train</span><span class="o">.</span><span class="n">variable_C</span>
+    
+    <span class="c1"># define a nemos ClassifierGLM model and fit to training data</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">nmo</span><span class="o">.</span><span class="n">glm</span><span class="o">.</span><span class="n">ClassifierGLM</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="n">n_classes</span><span class="p">,</span> <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">})</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">counts_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># get spike counts and variable_C for test trials</span>
+    <span class="n">counts_test</span> <span class="o">=</span> <span class="n">spikes</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">seg_test</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">seg_test</span><span class="o">.</span><span class="n">variable_C</span>
+
+    <span class="c1"># get predicted labels and compute accuracy</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">counts_test</span><span class="p">)</span>
+    <span class="n">seg_accuracy</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediction accuracy:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Trial start --&gt; Stim start:&quot;</span><span class="p">,</span> <span class="n">seg_accuracy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Stim start --&gt; Outcome:    &quot;</span><span class="p">,</span> <span class="n">seg_accuracy</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Outcome --&gt; Trial end:     &quot;</span><span class="p">,</span> <span class="n">seg_accuracy</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Prediction accuracy:
+ Trial start --&gt; Stim start: 0.624561403508772
+ Stim start --&gt; Outcome:     0.7543859649122807
+ Outcome --&gt; Trial end:      0.6947368421052632
+</pre></div>
+</div>
+</div>
+</div>
+<p>Based on these results, it appears that prediction accuracy is best in the second segment from stimulus onset to outcome time.</p>
+</section>
+<section id="better-cross-validation-with-sklearn">
+<h2>Better cross-validation with <a class="reference external" href="https://scikit-learn.org/stable/"><code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a><a class="headerlink" href="#better-cross-validation-with-sklearn" title="Link to this heading">#</a></h2>
+<p>We can do better cross-validation by introducing more folds, i.e. having more splits of the data and including every trial at least once in a test set. We can use <a class="reference external" href="https://scikit-learn.org/stable/"><code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a> to easily create these splits for us. Specifically, we’ll use <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html"><code class="docutils literal notranslate"><span class="pre">StratifiedKFold</span></code></a>, which will similarly respect the statistics of variable_C within each fold.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
+
+<span class="c1"># define number of folds and sklearn cross-validation object</span>
+<span class="n">n_splits</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">)</span>
+
+<span class="c1"># define nemos model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nmo</span><span class="o">.</span><span class="n">glm</span><span class="o">.</span><span class="n">ClassifierGLM</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="n">n_classes</span><span class="p">,</span> <span class="n">solver_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">})</span>
+
+<span class="c1"># grab variable C, which we&#39;ll index later</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">trials</span><span class="o">.</span><span class="n">variable_C</span>
+
+<span class="n">seg_accuracy_kfold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_splits</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">s</span><span class="p">,</span><span class="n">seg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">start_to_stim</span><span class="p">,</span> <span class="n">stim_to_outcome</span><span class="p">,</span> <span class="n">outcome_to_end</span><span class="p">]):</span>
+    <span class="c1"># get spike counts for every trial, which we&#39;ll index later</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">spikes</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">y</span><span class="p">)):</span>
+        <span class="c1"># split data into train and test sets</span>
+        <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+        <span class="n">counts_train</span><span class="p">,</span> <span class="n">counts_test</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">train_index</span><span class="p">,:],</span> <span class="n">counts</span><span class="p">[</span><span class="n">test_index</span><span class="p">,:]</span>
+
+        <span class="c1"># fit the model and compute accuracy</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">counts_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">counts_test</span><span class="p">)</span>
+        <span class="n">seg_accuracy_kfold</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since we have multiple estimates of the accuracy, we can do simple statistics to test for significance. We’ll use a <a class="reference external" href="https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test">Wilcoxon signed-rank test</a>, a simple non-parametric paired statistical test that makes no assumptions on the distribution of the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_seg12</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">seg_accuracy_kfold</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">seg_accuracy_kfold</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">pvalue</span>
+<span class="n">p_seg13</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">seg_accuracy_kfold</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">seg_accuracy_kfold</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">pvalue</span>
+<span class="n">p_seg23</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span><span class="n">seg_accuracy_kfold</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">seg_accuracy_kfold</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">pvalue</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Is the accuracy significantly different?&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; between segment 1 and 2: p-value = &quot;</span><span class="p">,</span> <span class="n">p_seg12</span><span class="p">,</span> <span class="s2">&quot; &lt; 0.05 = &quot;</span><span class="p">,</span> <span class="n">p_seg12</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; between segment 1 and 3: p-value = &quot;</span><span class="p">,</span> <span class="n">p_seg13</span><span class="p">,</span> <span class="s2">&quot; &lt; 0.05 = &quot;</span><span class="p">,</span> <span class="n">p_seg13</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; between segment 2 and 3: p-value = &quot;</span><span class="p">,</span> <span class="n">p_seg23</span><span class="p">,</span> <span class="s2">&quot; &lt; 0.05 = &quot;</span><span class="p">,</span> <span class="n">p_seg23</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Is the accuracy significantly different?
+ between segment 1 and 2: p-value =  0.03125  &lt; 0.05 =  True
+ between segment 1 and 3: p-value =  0.03125  &lt; 0.05 =  True
+ between segment 2 and 3: p-value =  0.4375  &lt; 0.05 =  False
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can plot the median accuracy as well as 95% bootstrapped confidence intervals around the median to visually compare the results of each segment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">bootstrap</span><span class="p">((</span><span class="n">seg_accuracy_kfold</span><span class="p">,),</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">confidence_level</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">n_resamples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;percentile&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">acc_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">seg_accuracy_kfold</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s2">&quot;Trial start --&gt; Stim start&quot;</span><span class="p">,</span> <span class="s2">&quot;Stim start --&gt; Outcome&quot;</span><span class="p">,</span> <span class="s2">&quot;Outcome --&gt; Trial end&quot;</span><span class="p">],</span> <span class="n">acc_median</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="p">[</span><span class="n">acc_median</span><span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">confidence_interval</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">confidence_interval</span><span class="o">.</span><span class="n">high</span><span class="o">-</span><span class="n">acc_median</span><span class="p">],</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Average decoding accuracy across folds&quot;</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])[:,</span><span class="kc">None</span><span class="p">],</span> <span class="n">n_splits</span><span class="p">),</span><span class="n">seg_accuracy_kfold</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;fold &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_splits</span><span class="p">)])</span>
+<span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">seg_accuracy_kfold</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_splits</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.91</span><span class="p">,</span><span class="mf">0.91</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.43</span><span class="p">,</span> <span class="mf">0.91</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.86</span><span class="p">,</span><span class="mf">0.86</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.93</span><span class="p">,</span> <span class="mf">0.86</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.81</span><span class="p">,</span><span class="mf">0.81</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.47</span><span class="p">,</span> <span class="mf">0.82</span><span class="p">,</span> <span class="s2">&quot;n.s.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(1.47, 0.82, &#39;n.s.&#39;)
+</pre></div>
+</div>
+<img alt="_images/b4e62ed94e939009d623d2c0541e62ec8e38cc391b7eb9ce6cb3670a3994e00b.png" src="_images/b4e62ed94e939009d623d2c0541e62ec8e38cc391b7eb9ce6cb3670a3994e00b.png" />
+</div>
+</div>
+</section>
+<section id="answer">
+<h2>Answer<a class="headerlink" href="#answer" title="Link to this heading">#</a></h2>
+<p>Although we’re only looking at a single animal, these premilinary results suggest that prediction accuracy is greatest during the segment from stimulus start to oucome time; however, the accuracy doesn’t appear to be significantly better than the accuracy during the segment from outcome time to trial end.</p>
+<p>Across all the animals, we <em>do</em> see a significant increase in accuracy during the middle segment; however, the within-animal difference is quite variable, with a number of animals seeing <em>better</em> accuracy in the last segment. This makes the significance test highly dependent on the animals included, as well as on the number of cross-validation folds performed!</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="question3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Question 3: Functional Connectivity Between Brain Areas</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approach">Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stream-and-load-the-data">Stream and load the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-cross-validation">Simple cross-validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#better-cross-validation-with-sklearn">Better cross-validation with <code class="docutils literal notranslate"><span class="pre">sklearn</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#answer">Answer</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pynapple team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Pynapple team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

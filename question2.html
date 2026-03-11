@@ -1,0 +1,875 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Question 2: Pairwise Spike Train Interactions &#8212; PreCosyne BrainHack 2026  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/mycss.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'question2';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Question 3: Functional Connectivity Between Brain Areas" href="question3.html" />
+    <link rel="prev" title="Question 1: Ripple Density per Brain Area" href="question1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/01-FI-primary-logo-color.png" class="logo__image only-light" alt="Home"/>
+    <img src="_static/03-FI-primary-logo-white.png" class="logo__image only-dark pst-js-only" alt="Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Questions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="question1.html">Question 1</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Question 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="question3.html">Question 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="question4.html">Question 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Our software</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://pynapple.org">pynapple</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://nemos.readthedocs.io/en/latest/">NeMoS</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/question2.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Question 2: Pairwise Spike Train Interactions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approach">Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-correlograms-per-brain-area">Cross-correlograms per brain area</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kruskal-wallis-test">Kruskal-Wallis test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#answer">Answer</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="question-2-pairwise-spike-train-interactions">
+<h1>Question 2: Pairwise Spike Train Interactions<a class="headerlink" href="#question-2-pairwise-spike-train-interactions" title="Link to this heading">#</a></h1>
+<p><strong>In which brain area are pairwise spike train interactions strongest at the 100 ms timescale?</strong></p>
+<section id="approach">
+<h2>Approach<a class="headerlink" href="#approach" title="Link to this heading">#</a></h2>
+<p>We compute pairwise cross-correlograms between spike trains within each brain area and use the mean cross-correlogram value as a proxy for interaction strength. Statistical comparisons across areas use the Kruskal-Wallis test, with post-hoc Mann-Whitney U tests and Bonferroni correction.</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">pynwb</span> <span class="kn">import</span> <span class="n">NWBHDF5IO</span>
+<span class="kn">from</span> <span class="nn">dandi.dandiapi</span> <span class="kn">import</span> <span class="n">DandiAPIClient</span>
+<span class="kn">import</span> <span class="nn">lindi</span>
+<span class="kn">import</span> <span class="nn">pynapple</span> <span class="k">as</span> <span class="nn">nap</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kruskal</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="n">dandiset_id</span> <span class="o">=</span> <span class="s2">&quot;218201&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cross-correlograms-per-brain-area">
+<h2>Cross-correlograms per brain area<a class="headerlink" href="#cross-correlograms-per-brain-area" title="Link to this heading">#</a></h2>
+<p>For each dataset, we load spike trains and compute normalized pairwise cross-correlograms within each brain area using a 10 ms bin and a ±100 ms window. The mean value across all pairs serves as the area-level interaction score (AUC).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">auc</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">cc_example</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># store cross-correlograms for dataset 1</span>
+
+<span class="k">for</span> <span class="n">dataset_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
+
+    <span class="n">filepath</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sub-mouse-</span><span class="si">{</span><span class="n">dataset_num</span><span class="si">}</span><span class="s2">/sub-mouse-</span><span class="si">{</span><span class="n">dataset_num</span><span class="si">}</span><span class="s2">_ses-None_ecephys.nwb&quot;</span>
+    <span class="k">with</span> <span class="n">DandiAPIClient</span><span class="p">(</span><span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;https://api.sandbox.dandiarchive.org/api&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">asset</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dandiset</span><span class="p">(</span><span class="n">dandiset_id</span><span class="p">,</span> <span class="s2">&quot;draft&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_asset_by_path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="n">s3_url</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">get_content_url</span><span class="p">(</span><span class="n">follow_redirects</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strip_query</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">lindi</span><span class="o">.</span><span class="n">LindiH5pyFile</span><span class="o">.</span><span class="n">from_hdf5_file</span><span class="p">(</span><span class="n">s3_url</span><span class="p">,</span> <span class="n">local_cache</span><span class="o">=</span><span class="n">lindi</span><span class="o">.</span><span class="n">LocalCache</span><span class="p">())</span>
+    <span class="n">io</span> <span class="o">=</span> <span class="n">NWBHDF5IO</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">NWBFile</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">read</span><span class="p">())[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
+
+    <span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">area</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">nap</span><span class="o">.</span><span class="n">compute_crosscorrelogram</span><span class="p">(</span>
+            <span class="n">spikes</span><span class="p">[</span><span class="n">spikes</span><span class="o">.</span><span class="n">brain_area</span> <span class="o">==</span> <span class="n">area</span><span class="p">],</span>
+            <span class="n">binsize</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+            <span class="n">windowsize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">norm</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">smoothed_cc</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">win_type</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">std</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">cc2</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">smoothed_cc</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">cc2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cc2</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">cc</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cc</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cc2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">:</span><span class="mf">0.1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dataset_num</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">cc_example</span><span class="p">[</span><span class="n">area</span><span class="p">]</span> <span class="o">=</span> <span class="n">cc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]):</span>
+    <span class="n">cc</span> <span class="o">=</span> <span class="n">cc_example</span><span class="p">[</span><span class="n">area</span><span class="p">]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cc</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Lag (ms)&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Area </span><span class="si">{</span><span class="n">area</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mean cross-correlogram&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Example pairwise cross-correlograms — dataset 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f01bd6cf7e9f5268a60469d43226c625e3a7137edd214f2c2c8ef22ba350fd1a.png" src="_images/f01bd6cf7e9f5268a60469d43226c625e3a7137edd214f2c2c8ef22ba350fd1a.png" />
+</div>
+</div>
+</section>
+<section id="kruskal-wallis-test">
+<h2>Kruskal-Wallis test<a class="headerlink" href="#kruskal-wallis-test" title="Link to this heading">#</a></h2>
+<p>We test whether interaction strength differs significantly across the three brain areas using the non-parametric Kruskal-Wallis test.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">dataset_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
+
+    <span class="n">kruskal_result</span> <span class="o">=</span> <span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">dataset_num</span><span class="si">}</span><span class="s2">: Kruskal-Wallis p-value = </span><span class="si">{</span><span class="n">kruskal_result</span><span class="o">.</span><span class="n">pvalue</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># When the Kruskal-Wallis test is significant, we run Mann-Whitney U tests for each pair of areas and apply Bonferroni correction for multiple comparisons.</span>
+
+    <span class="n">area_pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">n_comparisons</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">area_pairs</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">area1</span><span class="p">,</span> <span class="n">area2</span> <span class="ow">in</span> <span class="n">area_pairs</span><span class="p">:</span>
+        <span class="n">u_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="n">area1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="n">area2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">p_corrected</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p_val</span> <span class="o">*</span> <span class="n">n_comparisons</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kruskal_result</span><span class="o">.</span><span class="n">pvalue</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  Post-hoc area </span><span class="si">{</span><span class="n">area1</span><span class="si">}</span><span class="s2"> vs area </span><span class="si">{</span><span class="n">area2</span><span class="si">}</span><span class="s2">: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;U=</span><span class="si">{</span><span class="n">u_stat</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, p_corrected=</span><span class="si">{</span><span class="n">p_corrected</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># We store per-dataset statistics — Kruskal-Wallis results, mean AUC per area, and all pairwise test outcomes — into a DataFrame.</span>
+
+    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;dataset&quot;</span><span class="p">:</span> <span class="n">dataset_num</span><span class="p">,</span>
+        <span class="s2">&quot;kruskal_statistic&quot;</span><span class="p">:</span> <span class="n">kruskal_result</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span>
+        <span class="s2">&quot;kruskal_pvalue&quot;</span><span class="p">:</span> <span class="n">kruskal_result</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span>
+        <span class="s2">&quot;kruskal_significant&quot;</span><span class="p">:</span> <span class="n">kruskal_result</span><span class="o">.</span><span class="n">pvalue</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s2">&quot;mean_auc_area1&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s2">&quot;mean_auc_area2&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="s2">&quot;mean_auc_area3&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="s2">&quot;strongest_area&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">]])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">area1</span><span class="p">,</span> <span class="n">area2</span> <span class="ow">in</span> <span class="n">area_pairs</span><span class="p">:</span>
+        <span class="n">u_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="n">area1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">auc</span><span class="p">[</span><span class="n">dataset_num</span><span class="p">][</span><span class="n">area2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">p_corrected</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p_val</span> <span class="o">*</span> <span class="n">n_comparisons</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">col_prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;area</span><span class="si">{</span><span class="n">area1</span><span class="si">}</span><span class="s2">_vs_area</span><span class="si">{</span><span class="n">area2</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col_prefix</span><span class="si">}</span><span class="s2">_u&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u_stat</span>
+        <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col_prefix</span><span class="si">}</span><span class="s2">_p&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_val</span>
+        <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col_prefix</span><span class="si">}</span><span class="s2">_p_corrected&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_corrected</span>
+        <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col_prefix</span><span class="si">}</span><span class="s2">_significant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_corrected</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;dataset&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset 1: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=98253.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=8938.0, p=0.0001, p_corrected=0.0002
+  Post-hoc area 2 vs area 3: U=2517.0, p=0.7760, p_corrected=1.0000
+Dataset 2: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=64099.0, p=0.0039, p_corrected=0.0116
+  Post-hoc area 1 vs area 3: U=50261.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=14307.0, p=0.0503, p_corrected=0.1510
+Dataset 3: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=91193.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=12247.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=7262.0, p=0.0000, p_corrected=0.0001
+Dataset 4: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=662.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=38922.0, p=0.7135, p_corrected=1.0000
+  Post-hoc area 2 vs area 3: U=1902.0, p=0.0000, p_corrected=0.0000
+Dataset 5: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=1641126.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=41877.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=35589.0, p=0.0000, p_corrected=0.0000
+Dataset 6: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=58217.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=8272.0, p=0.0007, p_corrected=0.0021
+  Post-hoc area 2 vs area 3: U=5264.0, p=0.1015, p_corrected=0.3044
+Dataset 7: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=104264.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=54001.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=41507.0, p=0.0000, p_corrected=0.0000
+Dataset 8: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=97171.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=38808.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=48047.0, p=0.0000, p_corrected=0.0000
+Dataset 9: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=76336.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=328188.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=385312.0, p=0.0000, p_corrected=0.0000
+Dataset 10: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=320.0, p=0.0001, p_corrected=0.0002
+  Post-hoc area 1 vs area 3: U=4199.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=514.0, p=0.1044, p_corrected=0.3133
+Dataset 11: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=44892.0, p=0.2599, p_corrected=0.7797
+  Post-hoc area 1 vs area 3: U=6972.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=38613.0, p=0.0000, p_corrected=0.0000
+Dataset 12: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=2685.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=1866.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=1338.0, p=0.0131, p_corrected=0.0394
+Dataset 13: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=139985.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=60635.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=26558.0, p=0.1330, p_corrected=0.3990
+Dataset 14: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=1022.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 1 vs area 3: U=10911.0, p=0.0075, p_corrected=0.0226
+  Post-hoc area 2 vs area 3: U=4830.0, p=0.0000, p_corrected=0.0000
+Dataset 15: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=20453.0, p=0.0234, p_corrected=0.0703
+  Post-hoc area 1 vs area 3: U=1968.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=14477.0, p=0.0000, p_corrected=0.0000
+Dataset 16: Kruskal-Wallis p-value = 0.0004
+  Post-hoc area 1 vs area 2: U=460725.0, p=0.0001, p_corrected=0.0004
+  Post-hoc area 1 vs area 3: U=13205.0, p=0.1485, p_corrected=0.4455
+  Post-hoc area 2 vs area 3: U=6307.0, p=0.4440, p_corrected=1.0000
+Dataset 17: Kruskal-Wallis p-value = 0.0000
+  Post-hoc area 1 vs area 2: U=120302.0, p=0.0470, p_corrected=0.1411
+  Post-hoc area 1 vs area 3: U=67001.0, p=0.0000, p_corrected=0.0000
+  Post-hoc area 2 vs area 3: U=249731.0, p=0.0000, p_corrected=0.0000
+Dataset 18: Kruskal-Wallis p-value = 0.0006
+  Post-hoc area 1 vs area 2: U=7559.0, p=0.0001, p_corrected=0.0003
+  Post-hoc area 1 vs area 3: U=2359.0, p=0.0221, p_corrected=0.0664
+  Post-hoc area 2 vs area 3: U=7775.0, p=0.8055, p_corrected=1.0000
+         kruskal_statistic  kruskal_pvalue  kruskal_significant  \
+dataset                                                           
+1               166.499017    7.001610e-37                 True   
+2                29.566896    3.798658e-07                 True   
+3               231.973867    4.241453e-51                 True   
+4                31.691696    1.312912e-07                 True   
+5               134.118413    7.525869e-30                 True   
+6                29.468240    3.990737e-07                 True   
+7               204.441248    4.037821e-45                 True   
+8               173.595356    2.014872e-38                 True   
+9               966.662640   1.235591e-210                 True   
+10               70.091002    6.024656e-16                 True   
+11               53.720064    2.161904e-12                 True   
+12               68.620137    1.256975e-15                 True   
+13              591.395438   3.802877e-129                 True   
+14               69.496848    8.108700e-16                 True   
+15               70.382918    5.206471e-16                 True   
+16               15.893460    3.538173e-04                 True   
+17               42.699435    5.344849e-10                 True   
+18               14.901422    5.810283e-04                 True   
+
+         mean_auc_area1  mean_auc_area2  mean_auc_area3  strongest_area  \
+dataset                                                                   
+1              0.002406        0.025757        0.020548               2   
+2              0.008925        0.012074        0.022200               3   
+3              0.003357        0.020661        0.077531               3   
+4              0.022018        0.086035        0.020366               2   
+5              0.006222        0.004269        0.039865               3   
+6              0.007827        0.026391        0.040761               3   
+7              0.006821        0.023726        0.058563               3   
+8              0.002263        0.011012        0.047130               3   
+9              0.008268        0.098876        0.053009               2   
+10             0.012513        0.093842        0.050833               2   
+11             0.007425        0.005537        0.056066               3   
+12             0.000177        0.020273        0.039192               3   
+13             0.010491        0.072967        0.062893               2   
+14             0.029996        0.168340        0.007262               2   
+15             0.010866        0.012956        0.039166               3   
+16             0.004109        0.009951        0.022069               3   
+17             0.010788        0.016519        0.044689               3   
+18             0.006009        0.033360        0.030763               2   
+
+         area1_vs_area2_u  area1_vs_area2_p  area1_vs_area2_p_corrected  \
+dataset                                                                   
+1                 98253.0      2.003981e-35                6.011944e-35   
+2                 64099.0      3.878521e-03                1.163556e-02   
+3                 91193.0      1.472726e-39                4.418178e-39   
+4                   662.0      2.503369e-08                7.510108e-08   
+5               1641126.0      9.161006e-24                2.748302e-23   
+6                 58217.0      2.807653e-06                8.422960e-06   
+7                104264.0      7.700036e-18                2.310011e-17   
+8                 97171.0      9.292726e-13                2.787818e-12   
+9                 76336.0     8.383708e-141               2.515113e-140   
+10                  320.0      6.243525e-05                1.873058e-04   
+11                44892.0      2.599132e-01                7.797395e-01   
+12                 2685.0      4.075520e-10                1.222656e-09   
+13               139985.0     1.533097e-114               4.599292e-114   
+14                 1022.0      7.957387e-13                2.387216e-12   
+15                20453.0      2.344300e-02                7.032899e-02   
+16               460725.0      1.488329e-04                4.464986e-04   
+17               120302.0      4.701748e-02                1.410525e-01   
+18                 7559.0      8.740863e-05                2.622259e-04   
+
+         area1_vs_area2_significant  area1_vs_area3_u  area1_vs_area3_p  \
+dataset                                                                   
+1                              True            8938.0      7.408156e-05   
+2                              True           50261.0      4.409146e-07   
+3                              True           12247.0      3.060412e-19   
+4                              True           38922.0      7.134890e-01   
+5                              True           41877.0      2.549417e-08   
+6                              True            8272.0      7.146346e-04   
+7                              True           54001.0      1.109970e-38   
+8                              True           38808.0      2.739325e-34   
+9                              True          328188.0     2.563804e-138   
+10                             True            4199.0      1.717553e-14   
+11                            False            6972.0      3.281069e-06   
+12                             True            1866.0      1.772387e-11   
+13                             True           60635.0      6.141992e-26   
+14                             True           10911.0      7.524296e-03   
+15                            False            1968.0      1.317953e-12   
+16                             True           13205.0      1.484918e-01   
+17                            False           67001.0      3.800107e-08   
+18                             True            2359.0      2.211852e-02   
+
+         area1_vs_area3_p_corrected  area1_vs_area3_significant  \
+dataset                                                           
+1                      2.222447e-04                        True   
+2                      1.322744e-06                        True   
+3                      9.181235e-19                        True   
+4                      1.000000e+00                       False   
+5                      7.648250e-08                        True   
+6                      2.143904e-03                        True   
+7                      3.329910e-38                        True   
+8                      8.217974e-34                        True   
+9                     7.691413e-138                        True   
+10                     5.152660e-14                        True   
+11                     9.843208e-06                        True   
+12                     5.317162e-11                        True   
+13                     1.842598e-25                        True   
+14                     2.257289e-02                        True   
+15                     3.953858e-12                        True   
+16                     4.454754e-01                       False   
+17                     1.140032e-07                        True   
+18                     6.635556e-02                       False   
+
+         area2_vs_area3_u  area2_vs_area3_p  area2_vs_area3_p_corrected  \
+dataset                                                                   
+1                  2517.0      7.759902e-01                1.000000e+00   
+2                 14307.0      5.034092e-02                1.510227e-01   
+3                  7262.0      3.527795e-05                1.058339e-04   
+4                  1902.0      4.164503e-08                1.249351e-07   
+5                 35589.0      1.613311e-10                4.839932e-10   
+6                  5264.0      1.014613e-01                3.043839e-01   
+7                 41507.0      4.513115e-13                1.353934e-12   
+8                 48047.0      5.173509e-17                1.552053e-16   
+9                385312.0      2.856928e-25                8.570783e-25   
+10                  514.0      1.044323e-01                3.132968e-01   
+11                38613.0      3.884658e-13                1.165397e-12   
+12                 1338.0      1.312365e-02                3.937095e-02   
+13                26558.0      1.330161e-01                3.990483e-01   
+14                 4830.0      6.625341e-15                1.987602e-14   
+15                14477.0      1.013381e-14                3.040143e-14   
+16                 6307.0      4.439614e-01                1.000000e+00   
+17               249731.0      4.953667e-08                1.486100e-07   
+18                 7775.0      8.055146e-01                1.000000e+00   
+
+         area2_vs_area3_significant  
+dataset                              
+1                             False  
+2                             False  
+3                              True  
+4                              True  
+5                              True  
+6                             False  
+7                              True  
+8                              True  
+9                              True  
+10                            False  
+11                             True  
+12                             True  
+13                            False  
+14                             True  
+15                             True  
+16                            False  
+17                             True  
+18                            False  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>We tally which area is the strongest most frequently across datasets, and compute the overall mean AUC per area.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strongest_counts</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;strongest_area&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">strongest_counts</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+<span class="n">overall_mean</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;mean_auc_area1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;mean_auc_area2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;mean_auc_area3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+<span class="p">}</span>
+<span class="n">best_area</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">overall_mean</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">overall_mean</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Overall mean AUC — Area 1: </span><span class="si">{</span><span class="n">overall_mean</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Area 2: </span><span class="si">{</span><span class="n">overall_mean</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Area 3: </span><span class="si">{</span><span class="n">overall_mean</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>strongest_area
+3    11
+2     7
+Overall mean AUC — Area 1: 0.0089, Area 2: 0.0413, Area 3: 0.0407
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Scatter of mean AUC per area across datasets</span>
+<span class="n">data_to_plot</span> <span class="o">=</span> <span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;mean_auc_area1&quot;</span><span class="p">],</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;mean_auc_area2&quot;</span><span class="p">],</span> <span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;mean_auc_area3&quot;</span><span class="p">]]</span>
+
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data_to_plot</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="s2">&quot;C2&quot;</span><span class="p">])):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">j</span> <span class="o">+</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s2">&quot;Area 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Area 2&quot;</span><span class="p">,</span> <span class="s2">&quot;Area 3&quot;</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mean AUC&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Interaction strength per brain area&quot;</span><span class="p">)</span>
+
+<span class="c1"># Bar chart of overall mean AUC</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s2">&quot;Area 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Area 2&quot;</span><span class="p">,</span> <span class="s2">&quot;Area 3&quot;</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">overall_mean</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">overall_mean</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">overall_mean</span><span class="p">[</span><span class="mi">3</span><span class="p">]],</span>
+            <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="s2">&quot;C2&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mean AUC (across datasets)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Overall mean interaction strength&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8315e42ab1969c2e2de9ed7363f50af60f443d0c4e40a7f819f936089ebd7b11.png" src="_images/8315e42ab1969c2e2de9ed7363f50af60f443d0c4e40a7f819f936089ebd7b11.png" />
+</div>
+</div>
+</section>
+<section id="answer">
+<h2>Answer<a class="headerlink" href="#answer" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Brain area </span><span class="si">{</span><span class="n">best_area</span><span class="si">}</span><span class="s2"> has the strongest pairwise spike train interactions at the 100 ms timescale.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Brain area 2 has the strongest pairwise spike train interactions at the 100 ms timescale.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="question1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Question 1: Ripple Density per Brain Area</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="question3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Question 3: Functional Connectivity Between Brain Areas</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approach">Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-correlograms-per-brain-area">Cross-correlograms per brain area</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kruskal-wallis-test">Kruskal-Wallis test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#answer">Answer</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pynapple team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Pynapple team.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
