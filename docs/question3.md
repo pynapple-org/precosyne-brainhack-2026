@@ -123,7 +123,6 @@ for dataset_num in [9]:
             model = nmo.glm.PopulationGLM(
                 regularizer=nmo.regularizer.GroupLasso(),
                 regularizer_strength=0.01,
-                solver_kwargs={"max_iter": 2000}
             )
             model.fit(
                 X_train,
@@ -225,10 +224,6 @@ best = (
     .reset_index()
     .sort_values("normalised_pr2", ascending=False)
 )
-
-print("Top cross-area pairs:")
-print(best.head(10).to_string(index=False))
-
 best_pairs_df = pd.DataFrame(best_pairs)
 print("\n=== Best pair per dataset ===")
 print(best_pairs_df.to_string(index=False))
@@ -246,13 +241,7 @@ print(pair_counts.to_string(index=False))
 ## Answer
 
 ```{code-cell} ipython3
-best_pair = best.iloc[0]
 most_common = pair_counts.iloc[0]
-
-print(
-    f"Best pair (pooled across datasets): {best_pair['predictor']} → {best_pair['predicted']}"
-    f"  (normalised pR²={best_pair['normalised_pr2']:.4f})"
-)
 print(
     f"Most common best pair across datasets: {most_common['predictor']} → {most_common['predicted']}"
     f"  ({most_common['count']}/{len(best_pairs_df)} datasets)"
