@@ -43,6 +43,8 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
 ```
 
+## Stream and load the data
+
 First, we'll stream a representative animal directly from DANDI.
 
 ```{code-cell} ipython3
@@ -147,41 +149,57 @@ print(" Outcome --> Trial end:     ", seg_accuracy[2])
 
 Based on these results, it appears that prediction accuracy is best in the second segment from stimulus onset to outcome time.
 
-## Better cross-validation with sklearn
+## Better cross-validation with [`sklearn`](https://scikit-learn.org/stable/)
+
+We can do better cross-validation by introducing more folds, i.e. having more splits of the data and including every trial at least once in a test set. We can use [`sklearn`](https://scikit-learn.org/stable/) to easily create these splits for us. Specifically, we'll use [`StratifiedKFold`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html), which will similarly respect the statistics of variable_C within each fold. 
 
 ```{code-cell} ipython3
 from sklearn.model_selection import StratifiedKFold
 
-
-y = trials.variable_C
-
+# define number of folds and sklearn cross-validation object
 n_splits = 6
 skf = StratifiedKFold(n_splits=n_splits)
-model = nmo.glm.ClassifierGLM(n_classes=n_classes, solver_kwargs={"maxiter": 1000})
-seg_accuracy_kfold = np.zeros((n_splits,3))
 
+# define nemos model
+model = nmo.glm.ClassifierGLM(n_classes=n_classes, solver_kwargs={"maxiter": 1000})
+
+# grab variable C, which we'll index later
+y = trials.variable_C
+
+seg_accuracy_kfold = np.zeros((n_splits,3))
 for s,seg in enumerate([start_to_stim, stim_to_outcome, outcome_to_end]):
+    # get spike counts for every trial, which we'll index later
     counts = spikes.restrict(seg).count()
-    for i, (train_index, test_index) in enumerate(skf.split(np.zeros_like(y), y)):
+
+    for i, (train_index, test_index) in enumerate(skf.split(counts, y)):
+        # split data into train and test sets
         y_train, y_test = y[train_index], y[test_index]
         counts_train, counts_test = counts[train_index,:], counts[test_index,:]
 
+        # fit the model and compute accuracy
         model.fit(counts_train,y_train)
         y_pred = model.predict(counts_test)
         seg_accuracy_kfold[i,s] = np.mean(y_pred == y_test)
-    
 ```
 
-```{code-cell} ipython3
-print(stats.wilcoxon(seg_accuracy_kfold[:,0],seg_accuracy_kfold[:,1]))
-print(stats.wilcoxon(seg_accuracy_kfold[:,0],seg_accuracy_kfold[:,2]))
-print(stats.wilcoxon(seg_accuracy_kfold[:,1],seg_accuracy_kfold[:,2]))
-```
+Since we have multiple estimates of the accuracy, we can do simple statistics to test for significance. We'll use a [Wilcoxon signed-rank test](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test), a simple non-parametric paired statistical test that makes no assumptions on the distribution of the data.
 
 ```{code-cell} ipython3
-res = stats.bootstrap((seg_accuracy_kfold,), np.mean, confidence_level=0.95, n_resamples=10000, method="percentile", axis=0)
-acc_means = np.mean(seg_accuracy_kfold, axis=0)
-plt.bar(["Trial start --> Stim start", "Stim start --> Outcome", "Outcome --> Trial end"], acc_means, yerr=[acc_means-res.confidence_interval.low, res.confidence_interval.high-acc_means])
+p_seg12 = stats.wilcoxon(seg_accuracy_kfold[:,0],seg_accuracy_kfold[:,1]).pvalue
+p_seg13 = stats.wilcoxon(seg_accuracy_kfold[:,0],seg_accuracy_kfold[:,2]).pvalue
+p_seg23 = stats.wilcoxon(seg_accuracy_kfold[:,1],seg_accuracy_kfold[:,2]).pvalue
+print("Is the accuracy significantly different?")
+print(" between segment 1 and 2: p-value = ", p_seg12, " < 0.05 = ", p_seg12 < 0.05)
+print(" between segment 1 and 3: p-value = ", p_seg13, " < 0.05 = ", p_seg13 < 0.05)
+print(" between segment 2 and 3: p-value = ", p_seg23, " < 0.05 = ", p_seg23 < 0.05)
+```
+
+We can plot the median accuracy as well as 95% bootstrapped confidence intervals around the median to visually compare the results of each segment.
+
+```{code-cell} ipython3
+res = stats.bootstrap((seg_accuracy_kfold,), np.median, confidence_level=0.95, n_resamples=10000, method="percentile", axis=0)
+acc_median = np.mean(seg_accuracy_kfold, axis=0)
+plt.bar(["Trial start --> Stim start", "Stim start --> Outcome", "Outcome --> Trial end"], acc_median, yerr=[acc_median-res.confidence_interval.low, res.confidence_interval.high-acc_median])
 plt.xticks(rotation=45)
 plt.ylabel("Accuracy")
 plt.title("Average decoding accuracy across folds")
@@ -191,8 +209,4 @@ plt.plot([0, 2], [0.86,0.86], 'k')
 plt.text(0.93, 0.86, "*")
 plt.plot([1, 2], [0.81,0.81], 'k')
 plt.text(1.47, 0.82, "n.s.")
-```
-
-```{code-cell} ipython3
-
 ```
