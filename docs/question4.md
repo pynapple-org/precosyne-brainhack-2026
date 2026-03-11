@@ -12,8 +12,12 @@ kernelspec:
 orphan: true
 ---
 
-# Question 4: During which trial segment is variable C best decoded?
+# Question 4: Decoding Accuracy
 
+**During which trial segment is variable C best decoded?**
+
+
+## Approach
 Another way to frame this question is: during which trial segment is variable C best predicted from neural activity? To answer this version of the question, we'll use a classification GLM, which is useful for predicting the labels of categorical variables like variable C. This model avilable in NeMoS as [`ClassifierGLM`](https://nemos.readthedocs.io/en/latest/generated/glm/nemos.glm.ClassifierGLM.html#nemos.glm.ClassifierGLM). 
 
 We need to compare decoding during three trial segments: from trial start to simulus onset, from stimulus onset to outcome time, and from outcome time to trial end. 
@@ -210,3 +214,7 @@ plt.text(0.93, 0.86, "*")
 plt.plot([1, 2], [0.81,0.81], 'k')
 plt.text(1.47, 0.82, "n.s.")
 ```
+
+## Answer
+
+Although we're only looking at a single animal, these premilinary results suggest that prediction accuracy is greatest during the segment from stimulus start to oucome time; however, the accuracy doesn't appear to be significantly better than the accuracy during the segment from outcome time to trial end.
