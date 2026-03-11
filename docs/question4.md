@@ -203,10 +203,13 @@ We can plot the median accuracy as well as 95% bootstrapped confidence intervals
 ```{code-cell} ipython3
 res = stats.bootstrap((seg_accuracy_kfold,), np.median, confidence_level=0.95, n_resamples=10000, method="percentile", axis=0)
 acc_median = np.mean(seg_accuracy_kfold, axis=0)
-plt.bar(["Trial start --> Stim start", "Stim start --> Outcome", "Outcome --> Trial end"], acc_median, yerr=[acc_median-res.confidence_interval.low, res.confidence_interval.high-acc_median])
+plt.bar(["Trial start --> Stim start", "Stim start --> Outcome", "Outcome --> Trial end"], acc_median, yerr=[acc_median-res.confidence_interval.low, res.confidence_interval.high-acc_median], facecolor="gray")
 plt.xticks(rotation=45)
 plt.ylabel("Accuracy")
 plt.title("Average decoding accuracy across folds")
+p = plt.plot(np.tile(np.array([0,1,2])[:,None], n_splits),seg_accuracy_kfold.T)
+plt.legend(["fold "+str(i+1) for i in range(n_splits)])
+[plt.plot([0,1,2],seg_accuracy_kfold[i,:],'.', c=p[i].get_color()) for i in range(n_splits)]
 plt.plot([0, 1], [0.91,0.91], 'k')
 plt.text(0.43, 0.91, "*")
 plt.plot([0, 2], [0.86,0.86], 'k')
@@ -218,3 +221,9 @@ plt.text(1.47, 0.82, "n.s.")
 ## Answer
 
 Although we're only looking at a single animal, these premilinary results suggest that prediction accuracy is greatest during the segment from stimulus start to oucome time; however, the accuracy doesn't appear to be significantly better than the accuracy during the segment from outcome time to trial end.
+
+Across all the animals, we *do* see a significant increase in accuracy during the middle segment; however, the within-animal difference is quite variable, with a number of animals seeing *better* accuracy in the last segment. This makes the significance test highly dependent on the animals included, as well as on the number of cross-validation folds performed!
+
+```{code-cell} ipython3
+
+```

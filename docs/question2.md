@@ -23,10 +23,12 @@ We compute pairwise cross-correlograms between spike trains within each brain ar
 ## Setup
 
 ```{code-cell} ipython3
+%matplotlib inline
 from pynwb import NWBHDF5IO
 from dandi.dandiapi import DandiAPIClient
 import lindi
 import pynapple as nap
+from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.stats import kruskal, mannwhitneyu
@@ -41,8 +43,9 @@ For each dataset, we load spike trains and compute normalized pairwise cross-cor
 
 ```{code-cell} ipython3
 auc = {}
+cc_example = {}  # store cross-correlograms for dataset 1
 
-for dataset_num in range(1, 5):
+for dataset_num in range(1, 19):
 
     filepath = f"sub-mouse-{dataset_num}/sub-mouse-{dataset_num}_ses-None_ecephys.nwb"
     with DandiAPIClient(api_url="https://api.sandbox.dandiarchive.org/api") as client:
@@ -57,10 +60,30 @@ for dataset_num in range(1, 5):
         cc = nap.compute_crosscorrelogram(
             spikes[spikes.brain_area == area],
             binsize=0.01,
-            windowsize=0.1,
+            windowsize=0.5,
             norm=True
         )
-        auc[dataset_num].append(cc.loc[-0.1:0.1].mean(0).values)
+        smoothed_cc = cc.rolling(window=21, win_type="gaussian", center=True).mean(std=8)
+        cc2 = cc.values - smoothed_cc.values
+        cc2 = pd.DataFrame(cc2, index=cc.index, columns=cc.columns)
+        auc[dataset_num].append(cc2.loc[-0.1:0.1].mean(0).values)
+        if dataset_num == 1:
+            cc_example[area] = cc
+```
+
+```{code-cell} ipython3
+fig, axes = plt.subplots(1, 3, figsize=(12, 4), sharey=True)
+for i, area in enumerate([1, 2, 3]):
+    cc = cc_example[area]
+    axes[i].plot(cc.iloc[:,0], color=f"C{i}")
+    axes[i].axvline(0, color="k", linestyle="--", linewidth=0.8)
+    axes[i].set_xlabel("Lag (ms)")
+    axes[i].set_title(f"Area {area}")
+    if i == 0:
+        axes[i].set_ylabel("Mean cross-correlogram")
+fig.suptitle("Example pairwise cross-correlograms — dataset 1")
+plt.tight_layout()
+plt.show()
 ```
 
 ## Kruskal-Wallis test
@@ -68,7 +91,9 @@ for dataset_num in range(1, 5):
 We test whether interaction strength differs significantly across the three brain areas using the non-parametric Kruskal-Wallis test.
 
 ```{code-cell} ipython3
-for dataset_num in range(1, 5):
+rows = []
+
+for dataset_num in range(1, 19):
 
     kruskal_result = kruskal(*auc[dataset_num])
     print(f"Dataset {dataset_num}: Kruskal-Wallis p-value = {kruskal_result.pvalue:.4f}")
@@ -88,8 +113,6 @@ for dataset_num in range(1, 5):
             )
 
     # We store per-dataset statistics — Kruskal-Wallis results, mean AUC per area, and all pairwise test outcomes — into a DataFrame.
-
-    rows = []
 
     row = {
         "dataset": dataset_num,
@@ -114,7 +137,7 @@ for dataset_num in range(1, 5):
     rows.append(row)
 
 results_df = pd.DataFrame(rows).set_index("dataset")
-print(results_df.to_string())
+print(results_df)
 ```
 
 ## Summary
@@ -132,6 +155,32 @@ overall_mean = {
 }
 best_area = max(overall_mean, key=overall_mean.get)
 print(f"Overall mean AUC — Area 1: {overall_mean[1]:.4f}, Area 2: {overall_mean[2]:.4f}, Area 3: {overall_mean[3]:.4f}")
+```
+
+```{code-cell} ipython3
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+# Scatter of mean AUC per area across datasets
+data_to_plot = [results_df["mean_auc_area1"], results_df["mean_auc_area2"], results_df["mean_auc_area3"]]
+
+for j, (data, color) in enumerate(zip(data_to_plot, ["C0", "C1", "C2"])):
+    x = np.full(len(data), j + 1) + np.random.uniform(-0.05, 0.05, len(data))
+    axes[0].scatter(x, data, color=color, alpha=0.8, zorder=3)
+    axes[0].hlines(np.mean(data), j + 0.8, j + 1.2, color=color, linewidth=2)
+axes[0].set_xticks([1, 2, 3])
+axes[0].set_xticklabels(["Area 1", "Area 2", "Area 3"])
+axes[0].set_ylabel("Mean AUC")
+axes[0].set_title("Interaction strength per brain area")
+
+# Bar chart of overall mean AUC
+axes[1].bar(["Area 1", "Area 2", "Area 3"],
+            [overall_mean[1], overall_mean[2], overall_mean[3]],
+            color=["C0", "C1", "C2"], alpha=0.7)
+axes[1].set_ylabel("Mean AUC (across datasets)")
+axes[1].set_title("Overall mean interaction strength")
+
+plt.tight_layout()
+plt.show()
 ```
 
 ## Answer
