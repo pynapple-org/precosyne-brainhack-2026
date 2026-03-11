@@ -64,14 +64,16 @@ For each dataset, we load spike trains and fit a population-level GLM for every 
 ### Notes
 
 - We subsample the units to the lowest number per brain area, otherwise we might interpret performance differences caused by different numbers of units as functional connectivity.
-- We use NeMoS' `GroupLasso` to regularize each unit's features together.
+- We use NeMoS' [`GroupLasso`](https://nemos.readthedocs.io/en/latest/generated/regularizer/nemos.regularizer.GroupLasso.html#nemos.regularizer.GroupLasso) to regularize each unit's features together.
 - We filter out units with a firing rate below 1 Hz to avoid silent neuron issues during fitting.
 
 ```{code-cell} ipython3
+:tags: [hide-output]
+
 results = []
 best_pairs = []
 
-for dataset_num in [9]:
+for dataset_num in range(1, 5):
 
     # Stream data from DANDI
     filepath = f"sub-mouse-{dataset_num}/sub-mouse-{dataset_num}_ses-None_ecephys.nwb"
@@ -145,8 +147,8 @@ for dataset_num in [9]:
             session_results.append(
                 {
                     "dataset": dataset_num,
-                    "predicted": predicted_area,
-                    "predictor": predictor_area,
+                    "predicted": int(predicted_area),
+                    "predictor": int(predictor_area),
                     "pr2": float(scores),
                 }
             )
@@ -170,9 +172,9 @@ for dataset_num in [9]:
     best_pair = best.iloc[0]
     best_pairs.append(
         {
-            "dataset": dataset_num,
-            "predictor": best_pair["predictor"],
-            "predicted": best_pair["predicted"],
+            "dataset": int(dataset_num),
+            "predictor": int(best_pair["predictor"]),
+            "predicted": int(best_pair["predicted"]),
             "normalised_pr2": best_pair["normalised_pr2"],
         }
     )
@@ -202,7 +204,7 @@ mask_diagonal = np.eye(len(mat_norm), dtype=bool)
 sns.heatmap(
     mat_norm,
     annot=True,
-    fmt=".2f",
+    fmt=".4f",
     cmap="RdYlGn",
     mask=mask_diagonal,
     cbar_kws={"shrink": 0.7, "label": "normalised pseudo-R² (cross − within)"},
@@ -234,6 +236,7 @@ pair_counts = (
     .reset_index(name="count")
     .sort_values("count", ascending=False)
 )
+pair_counts["count"] = pair_counts["count"].astype(int)
 print("\n=== Pair occurrence counts ===")
 print(pair_counts.to_string(index=False))
 ```
@@ -244,6 +247,6 @@ print(pair_counts.to_string(index=False))
 most_common = pair_counts.iloc[0]
 print(
     f"Most common best pair across datasets: {most_common['predictor']} → {most_common['predicted']}"
-    f"  ({most_common['count']}/{len(best_pairs_df)} datasets)"
+    f"  ({int(most_common['count'])}/{len(best_pairs_df)} datasets)"
 )
 ```

@@ -8,6 +8,7 @@ Curated answers for the [CON²PHYS hackathon 2026](https://pre-cosyne-brainhack.
 
 Question 1 <question1>
 Question 2 <question2>
+Question 3 <question3>
 Question 4 <question4>
 ```
 
