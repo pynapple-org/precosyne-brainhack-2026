@@ -9,7 +9,7 @@ description = "Brainhack 2026 project"
 requires-python = ">=3.10"
 dependencies = [
     "pynapple",
-    "nemos",
+    "nemos @ git+https://github.com/flatironinstitute/nemos.git@development",
     "matplotlib",
     "seaborn",
     "pandas",
@@ -19,9 +19,6 @@ dependencies = [
     "h5py",
     "lindi"
 ]
-[tool.uv.sources]
-nemos = { git = "ssh://git@github.com/flatironinstitute/nemos.git" , branch="development"}
-
 
 [tool.setuptools.packages.find]
 where = ["src"]
