@@ -11,6 +11,14 @@ Question 2 <question2>
 Question 4 <question4>
 ```
 
+```{toctree}
+:maxdepth: 1
+:caption: Our software
+
+pynapple <https://pynapple.org>
+NeMoS <https://nemos.readthedocs.io/en/latest/>
+```
+
 ## Installation
 
 ### 1. Install pynapple and NeMoS
@@ -47,4 +55,3 @@ trials = load_trials(dataset_num)
 ```
 
 See `example_load.py` for a full example.
-
