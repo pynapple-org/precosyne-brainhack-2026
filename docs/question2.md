@@ -60,10 +60,10 @@ for dataset_num in range(1, 19):
         cc = nap.compute_crosscorrelogram(
             spikes[spikes.brain_area == area],
             binsize=0.01,
-            windowsize=0.5,
+            windowsize=1.0,
             norm=True
         )
-        smoothed_cc = cc.rolling(window=21, win_type="gaussian", center=True).mean(std=8)
+        smoothed_cc = cc.rolling(window=100, win_type="gaussian", center=True).mean(std=10)
         cc2 = cc.values - smoothed_cc.values
         cc2 = pd.DataFrame(cc2, index=cc.index, columns=cc.columns)
         auc[dataset_num].append(cc2.loc[-0.1:0.1].mean(0).values)
