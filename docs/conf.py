@@ -44,7 +44,9 @@ html_css_files = ["mycss.css"]
 
 html_theme_options = {
     "logo": {
-        "text": [],
+        "alt_text": "Home",
+        "image_light": "_static/01-FI-primary-logo-color.png",
+        "image_dark": "_static/03-FI-primary-logo-white.png",
     },
     "secondary_sidebar_items": {
         "**": ["page-toc"],
