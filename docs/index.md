@@ -43,5 +43,6 @@ See `example_load.py` for a full example.
 :maxdepth: 1
 :caption: Questions
 
+Question 1 <question1>
 Question 2 <question2>
 ```
