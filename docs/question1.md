@@ -63,7 +63,7 @@ print(lfps[1])
 
 ## Power spectral density per brain area
 
-We compute the power spectral density and identify the 3 channels with the highest ripple-band power (100–150 Hz) per area to reduce computational load.
+We compute the power spectral density and identify the 3 channels with the highest ripple-band power (120–200 Hz) per area to reduce computational load.
 
 ```{code-cell} ipython3
 powers = {}
@@ -71,7 +71,9 @@ ripple_powers = {}
 for area in [1, 2, 3]:
     powers[area] = nap.compute_mean_power_spectral_density(lfps[area], 10, fs=500, ep=nap.IntervalSet(0, 60))
     ripple_powers[area] = powers[area].loc[120:200].sum(0)
+```
 
+```{code-cell} ipython3
 fig, ax = plt.subplots(figsize=(8, 4))
 for area in [1, 2, 3]:
     ax.semilogy(powers[area].index, powers[area].mean(1), label=f"Area {area}")
@@ -93,7 +95,9 @@ flfps = {}
 for area in [1, 2, 3]:
     best_channels = ripple_powers[area].sort_values().index[-3:].values
     flfps[area] = nap.apply_bandpass_filter(lfps[area][:, best_channels], cutoff=(120, 200), fs=500)
+```
 
+```{code-cell} ipython3
 ep = nap.IntervalSet(32, 34)
 
 fig, axes = plt.subplots(3, 1, figsize=(10, 6), sharex=True)
@@ -111,6 +115,9 @@ plt.show()
 
 ## Hilbert transform — amplitude envelope
 
+We compute the Hilbert transform of the filtered LFP to extract the amplitude envelope, which reflects ripple strength over time. 
+We plot the envelope alongside the filtered signal for visual confirmation.
+
 ```{code-cell} ipython3
 envelopes = {}
 for area in [1, 2, 3]:
@@ -118,7 +125,9 @@ for area in [1, 2, 3]:
     envelopes[area] = nap.TsdFrame(
         t=flfps[area].t, d=np.abs(analytic_signal), columns=flfps[area].columns
     )
+```
 
+```{code-cell} ipython3
 fig, axes = plt.subplots(3, 1, figsize=(10, 6), sharex=True)
 for i, area in enumerate([1, 2, 3]):
     axes[i].plot(flfps[area][:,0].restrict(ep), alpha=0.5, label="Filtered")
@@ -160,15 +169,22 @@ plt.show()
 
 ## Ripple detection
 
+We detect ripple events by thresholding the nSS signal above 3 standard deviations
+We further filter detected events to keep only those between 30 ms and 300 ms in duration, which are typical for hippocampal ripples. 
+Finally, we plot the detected ripple events on top of the filtered LFP signal for visual confirmation.
+
 ```{code-cell} ipython3
 ripples = {}
 for area in [1, 2, 3]:
-    ripple_events = nSS[area].threshold(3, method="above").threshold(100, method="below")
+    ripple_events = nSS[area].threshold(3, method="above")
     ripple_ep = ripple_events.time_support
     ripple_ep = ripple_ep.drop_short_intervals(0.03, time_units="s")
     ripple_ep = ripple_ep.drop_long_intervals(0.3, time_units="s")    
     ripples[area] = ripple_ep
+```
 
+
+```{code-cell} ipython3
 # Plot detected ripples on filtered LFP
 fig, axes = plt.subplots(3, 1, figsize=(12, 6), sharex=True)
 for i, area in enumerate([1, 2, 3]):
