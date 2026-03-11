@@ -8,8 +8,26 @@ version = "0.1.0"
 description = "Brainhack 2026 project"
 requires-python = ">=3.10"
 dependencies = [
+    "pynapple",
     "nemos",
+    "matplotlib",
+    "seaborn",
+    "pandas",
+    "dandi",
+    "pynwb",
+    "fsspec",
+    "h5py",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "pydata-sphinx-theme",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "myst-parser",
+    "myst-nb",
+]
