@@ -44,4 +44,5 @@ See `example_load.py` for a full example.
 :caption: Questions
 
 Question 2 <question2>
+Question 4 <question4>
 ```

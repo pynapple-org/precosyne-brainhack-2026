@@ -26,7 +26,7 @@ myst_enable_extensions = [
 ]
 
 master_doc = "index"
-templates_path = ["_templates"]
+templates_path = []
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 nb_execution_timeout = -1
@@ -37,7 +37,7 @@ nb_execution_mode = "cache"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "pydata_sphinx_theme"
+html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
 html_css_files = ["mycss.css"]
 # html_js_files = ["myjs.js"]
