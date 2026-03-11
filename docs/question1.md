@@ -47,6 +47,10 @@ f = lindi.LindiH5pyFile.from_hdf5_file(s3_url, local_cache=lindi.LocalCache())
 io = NWBHDF5IO(file=f)
 data = nap.NWBFile(io.read())
 print(data)
+```
+
+We extract the LFP data for each brain area, restricting to the first 60 seconds for computational efficiency.
+```{code-cell} ipython3
 
 lfps = {
     1: data['lfp_area_1'].get(0, 60),
@@ -65,13 +69,13 @@ We compute the power spectral density and identify the 3 channels with the highe
 powers = {}
 ripple_powers = {}
 for area in [1, 2, 3]:
-    powers[area] = nap.compute_power_spectral_density(lfps[area], fs=500)
-    ripple_powers[area] = powers[area].loc[100:150].sum(0)
+    powers[area] = nap.compute_mean_power_spectral_density(lfps[area], 10, fs=500, ep=nap.IntervalSet(0, 60))
+    ripple_powers[area] = powers[area].loc[120:200].sum(0)
 
 fig, ax = plt.subplots(figsize=(8, 4))
 for area in [1, 2, 3]:
     ax.semilogy(powers[area].index, powers[area].mean(1), label=f"Area {area}")
-ax.axvspan(100, 150, alpha=0.15, color="red", label="Ripple band")
+ax.axvspan(120, 200, alpha=0.15, color="red", label="Ripple band")
 ax.set_xlabel("Frequency (Hz)")
 ax.set_ylabel("Power")
 ax.set_title("Power spectral density per brain area")
@@ -82,20 +86,20 @@ plt.show()
 
 ## Select best channels and bandpass filter
 
-We keep the 3 channels with highest ripple-band power per area and apply a bandpass filter (80–150 Hz).
+We keep the 3 channels with highest ripple-band power per area and apply a bandpass filter (120–200 Hz).
 
 ```{code-cell} ipython3
 flfps = {}
 for area in [1, 2, 3]:
     best_channels = ripple_powers[area].sort_values().index[-3:].values
-    flfps[area] = nap.apply_bandpass_filter(lfps[area][:, best_channels], cutoff=(80, 150), fs=500)
+    flfps[area] = nap.apply_bandpass_filter(lfps[area][:, best_channels], cutoff=(120, 200), fs=500)
 
 ep = nap.IntervalSet(32, 34)
 
 fig, axes = plt.subplots(3, 1, figsize=(10, 6), sharex=True)
 for i, area in enumerate([1, 2, 3]):
     axes[i].plot(lfps[area].restrict(ep).t, lfps[area].restrict(ep)[:, 0], label="Raw", alpha=0.7)
-    axes[i].plot(flfps[area].restrict(ep).t, flfps[area].restrict(ep)[:, 0], label="Filtered (80–150 Hz)", alpha=0.9)
+    axes[i].plot(flfps[area].restrict(ep).t, flfps[area].restrict(ep)[:, 0], label="Filtered (120-200 Hz)", alpha=0.9)
     axes[i].set_ylabel(f"Area {area}")
     if i == 0:
         axes[i].legend(loc="upper right")
@@ -161,6 +165,8 @@ ripples = {}
 for area in [1, 2, 3]:
     ripple_events = nSS[area].threshold(3, method="above").threshold(100, method="below")
     ripple_ep = ripple_events.time_support
+    ripple_ep = ripple_ep.drop_short_intervals(0.03, time_units="s")
+    ripple_ep = ripple_ep.drop_long_intervals(0.3, time_units="s")    
     ripples[area] = ripple_ep
 
 # Plot detected ripples on filtered LFP
