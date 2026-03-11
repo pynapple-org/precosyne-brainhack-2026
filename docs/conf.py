@@ -25,6 +25,7 @@ myst_enable_extensions = [
     "dollarmath",
 ]
 
+master_doc = "index"
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 

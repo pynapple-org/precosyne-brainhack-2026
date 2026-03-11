@@ -68,15 +68,13 @@ for dataset_num in range(1, 5):
 We test whether interaction strength differs significantly across the three brain areas using the non-parametric Kruskal-Wallis test.
 
 ```{code-cell} ipython3
+for dataset_num in range(1, 5):
+
     kruskal_result = kruskal(*auc[dataset_num])
     print(f"Dataset {dataset_num}: Kruskal-Wallis p-value = {kruskal_result.pvalue:.4f}")
-```
 
-## Post-hoc pairwise comparisons
+    # When the Kruskal-Wallis test is significant, we run Mann-Whitney U tests for each pair of areas and apply Bonferroni correction for multiple comparisons.
 
-When the Kruskal-Wallis test is significant, we run Mann-Whitney U tests for each pair of areas and apply Bonferroni correction for multiple comparisons.
-
-```{code-cell} ipython3
     area_pairs = list(combinations([1, 2, 3], 2))
     n_comparisons = len(area_pairs)
 
@@ -88,13 +86,9 @@ When the Kruskal-Wallis test is significant, we run Mann-Whitney U tests for eac
                 f"  Post-hoc area {area1} vs area {area2}: "
                 f"U={u_stat:.1f}, p={p_val:.4f}, p_corrected={p_corrected:.4f}"
             )
-```
 
-## Collecting results
+    # We store per-dataset statistics — Kruskal-Wallis results, mean AUC per area, and all pairwise test outcomes — into a DataFrame.
 
-We store per-dataset statistics — Kruskal-Wallis results, mean AUC per area, and all pairwise test outcomes — into a DataFrame.
-
-```{code-cell} ipython3
     rows = []
 
     row = {
