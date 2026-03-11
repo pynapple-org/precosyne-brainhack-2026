@@ -2,6 +2,15 @@
 
 Curated answers for the [CON²PHYS hackathon 2026](https://pre-cosyne-brainhack.github.io/hackathon2026/posts/con2phys/), which investigates how methodological choices impact scientific conclusions when analyzing identical electrophysiology data.
 
+```{toctree}
+:maxdepth: 1
+:caption: Questions
+
+Question 1 <question1>
+Question 2 <question2>
+Question 4 <question4>
+```
+
 ## Installation
 
 ### 1. Install pynapple and NeMoS
@@ -39,11 +48,3 @@ trials = load_trials(dataset_num)
 
 See `example_load.py` for a full example.
 
-```{toctree}
-:maxdepth: 1
-:caption: Questions
-
-Question 1 <question1>
-Question 2 <question2>
-Question 4 <question4>
-```
