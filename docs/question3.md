@@ -73,7 +73,7 @@ For each dataset, we load spike trains and fit a population-level GLM for every 
 results = []
 best_pairs = []
 
-for dataset_num in range(1, 5):
+for dataset_num in range(1, 19):
 
     # Stream data from DANDI
     filepath = f"sub-mouse-{dataset_num}/sub-mouse-{dataset_num}_ses-None_ecephys.nwb"
