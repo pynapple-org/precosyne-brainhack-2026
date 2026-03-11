@@ -19,6 +19,9 @@ dependencies = [
     "h5py",
     "lindi"
 ]
+[tool.uv.sources]
+nemos = { git = "ssh://git@github.com/flatironinstitute/nemos.git" , branch="development"}
+
 
 [tool.setuptools.packages.find]
 where = ["src"]
